@@ -32,8 +32,9 @@ namespace KalikoCMS.Search {
         }
 
         public override void AddToIndex(IndexItem item) {
-            string key = GetKey(item.PageId, item.LanguageId);
+            var key = GetKey(item.PageId, item.LanguageId);
             var pageDocument = new PageDocument(key, item);
+            _collection.RemoveDocument(key);
             _collection.AddDocument(pageDocument);
 
             IndexingFinished();

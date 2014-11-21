@@ -1,6 +1,5 @@
 ﻿namespace KalikoSearch.Core {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using Analyzers;
     using Lucene.Net.Analysis;
@@ -11,7 +10,6 @@
     using Lucene.Net.Search.Highlight;
     using Lucene.Net.Search.Similar;
     using Version = Lucene.Net.Util.Version;
-    using KalikoSearch;
 
     public class SearchFinder : IDisposable {
         public const int MaxHits = 1000;
@@ -60,7 +58,7 @@
             CreateIndexer();
         }
 
-        public SearchResult FindSimular(string key, int resultOffset, int resultLength) {
+        public SearchResult FindSimular(string key, int resultOffset, int resultLength, bool matchCategory) {
             var pageQuery = new TermQuery(new Term("key", key));
             var topDocs = _searcher.Search(pageQuery, 1);
             if (topDocs.TotalHits == 0) {
@@ -73,14 +71,13 @@
                 Analyzer = _analyzer, 
                 MinWordLen = 3
             };
-            moreLikeThis.SetFieldNames(new[] { "title", "summary", "content", "category", "tags" });
+            moreLikeThis.SetFieldNames(new[] { "title", "summary", "content", "tags" });
             moreLikeThis.SetStopWords(StopWords.DefaultEnglish);
-
+            moreLikeThis.MinDocFreq = 2;
+            
             var query = moreLikeThis.Like(doc);
-
-            DateTime startTime = DateTime.Now;
-
-            long ticks = DateTime.Now.Ticks;
+            var startTime = DateTime.Now;
+            var ticks = DateTime.Now.Ticks;
 
             Query publishStartQuery = NumericRangeQuery.NewLongRange("publishStart", null, ticks, true, false);
             Query publishStopQuery = NumericRangeQuery.NewLongRange("publishStop", ticks, null, false, true);
@@ -92,12 +89,22 @@
                 {publishStopQuery, Occur.MUST}
             };
 
+            if (matchCategory) {
+                var document = _searcher.Doc(doc);
+                var field = document.GetField("category");
+
+                if (field != null && !string.IsNullOrEmpty(field.StringValue)) {
+                    var categoryQuery = new TermQuery(new Term("category", field.StringValue.ToLowerInvariant()));
+                    booleanQuery.Add(categoryQuery, Occur.MUST);
+                }
+            }
+
             var scoreDocs = _searcher.Search(booleanQuery, null, MaxHits, Sort.RELEVANCE).ScoreDocs;
 
             var result = new SearchResult { NumberOfHits = scoreDocs.Length };
 
             if (resultOffset < scoreDocs.Length) {
-                int resultUpperOffset = resultOffset + resultLength;
+                var resultUpperOffset = resultOffset + resultLength;
                 if (resultUpperOffset > scoreDocs.Length) {
                     resultUpperOffset = scoreDocs.Length;
                 }
@@ -123,7 +130,7 @@
                 }
             }
 
-            TimeSpan timeTaken = DateTime.Now - startTime;
+            var timeTaken = DateTime.Now - startTime;
             result.SecondsTaken = timeTaken.TotalSeconds;
 
             return result;
@@ -139,15 +146,14 @@
             }
 
             var parser = new MultiFieldQueryParser(Version.LUCENE_30, searchFields, _analyzer) {DefaultOperator = QueryParser.Operator.AND};
-            Query query = ParseQuery(queryString, parser);
+            var query = ParseQuery(queryString, parser);
 
             return ExecuteQuery(metaData, resultOffset, resultLength, query);
         }
 
         private SearchResult ExecuteQuery(string[] metaData, int resultOffset, int resultLength, Query query) {
-            DateTime startTime = DateTime.Now;
-
-            long ticks = DateTime.Now.Ticks;
+            var startTime = DateTime.Now;
+            var ticks = DateTime.Now.Ticks;
 
             Query publishStartQuery = NumericRangeQuery.NewLongRange("publishStart", null, ticks, true, false);
             Query publishStopQuery = NumericRangeQuery.NewLongRange("publishStop", ticks, null, false, true);
@@ -158,31 +164,29 @@
                 {publishStopQuery, Occur.MUST}
             };
 
-            ScoreDoc[] scoreDocs = _searcher.Search(booleanQuery, null, MaxHits, Sort.RELEVANCE).ScoreDocs;
-
+            var scoreDocs = _searcher.Search(booleanQuery, null, MaxHits, Sort.RELEVANCE).ScoreDocs;
             var result = new SearchResult {NumberOfHits = scoreDocs.Length};
 
-            // create highlighter
-            IFormatter formatter = new SimpleHTMLFormatter("<span style=\"font-weight:bold;\">", "</span>");
+            // Create highlighter
+            IFormatter formatter = new SimpleHTMLFormatter("<span class=\"search-highlight;\">", "</span>");
             var fragmenter = new SimpleFragmenter(120);
             var scorer = new QueryScorer(query);
             var highlighter = new Highlighter(formatter, scorer) {TextFragmenter = fragmenter};
 
             if (resultOffset < scoreDocs.Length) {
-                int resultUpperOffset = resultOffset + resultLength;
+                var resultUpperOffset = resultOffset + resultLength;
                 if (resultUpperOffset > scoreDocs.Length) {
                     resultUpperOffset = scoreDocs.Length;
                 }
 
-                for (int i = resultOffset; i < resultUpperOffset; i++) {
-                    ScoreDoc doc = scoreDocs[i];
-                    Document document = _searcher.Doc(doc.Doc);
-
+                for (var i = resultOffset; i < resultUpperOffset; i++) {
+                    var doc = scoreDocs[i];
+                    var document = _searcher.Doc(doc.Doc);
                     var content = document.Get("content");
                     var excerpt = "";
 
                     if (content != null) {
-                        TokenStream stream = _analyzer.TokenStream("", new StringReader(document.Get("content")));
+                        var stream = _analyzer.TokenStream("", new StringReader(document.Get("content")));
                         excerpt = highlighter.GetBestFragments(stream, document.Get("content"), 2, "...");
                     }
 
@@ -197,7 +201,7 @@
                     };
 
 
-                    foreach (string key in metaData) {
+                    foreach (var key in metaData) {
                         hit.MetaData.Add(key, document.Get(key));
                     }
 
@@ -205,7 +209,7 @@
                 }
             }
 
-            TimeSpan timeTaken = DateTime.Now - startTime;
+            var timeTaken = DateTime.Now - startTime;
             result.SecondsTaken = timeTaken.TotalSeconds;
 
             return result;

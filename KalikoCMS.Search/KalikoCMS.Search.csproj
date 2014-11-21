@@ -51,9 +51,9 @@
     <Reference Include="Kaliko.Logger">
       <HintPath>..\packages\Kaliko.Logger.1.1.0\lib\Kaliko.Logger.dll</HintPath>
     </Reference>
-    <Reference Include="KalikoCMS.Engine, Version=0.9.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="KalikoCMS.Engine, Version=0.9.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\KalikoCMS.Engine.0.9.7-beta\lib\KalikoCMS.Engine.dll</HintPath>
+      <HintPath>..\packages\KalikoCMS.Engine.0.9.8\lib\KalikoCMS.Engine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

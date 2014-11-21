@@ -74,18 +74,16 @@ namespace KalikoCMS.Search {
         }
 
         public override SearchResult Search(SearchQuery query) {
-            KalikoSearch.Core.SearchResult searchResult = _collection.Search(query.SearchString, SearchFields, query.MetaData, query.ReturnFromPosition, query.NumberOfHitsToReturn);
-
-            SearchResult result = ConvertResult(searchResult);
+            var searchResult = _collection.Search(query.SearchString, SearchFields, query.MetaData, query.ReturnFromPosition, query.NumberOfHitsToReturn);
+            var result = ConvertResult(searchResult);
 
             return result;
         }
 
-        public override SearchResult FindSimular(Guid pageId, int languageId, int resultOffset = 0, int resultSize = 10) {
-            string key = GetKey(pageId, languageId);
-            KalikoSearch.Core.SearchResult searchResult = _collection.FindSimular(key, resultOffset, resultSize);
-
-            SearchResult result = ConvertResult(searchResult);
+        public override SearchResult FindSimular(Guid pageId, int languageId, int resultOffset = 0, int resultSize = 10, bool matchCategory = true) {
+            var key = GetKey(pageId, languageId);
+            var searchResult = _collection.FindSimular(key, resultOffset, resultSize, matchCategory);
+            var result = ConvertResult(searchResult);
 
             return result;
         }

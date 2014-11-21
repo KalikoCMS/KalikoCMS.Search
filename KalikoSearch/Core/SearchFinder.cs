@@ -77,7 +77,7 @@
             
             var query = moreLikeThis.Like(doc);
             var startTime = DateTime.Now;
-            var ticks = DateTime.Now.Ticks;
+            var ticks = DateTime.Now.ToUniversalTime().Ticks;
 
             Query publishStartQuery = NumericRangeQuery.NewLongRange("publishStart", null, ticks, true, false);
             Query publishStopQuery = NumericRangeQuery.NewLongRange("publishStop", ticks, null, false, true);
@@ -153,7 +153,7 @@
 
         private SearchResult ExecuteQuery(string[] metaData, int resultOffset, int resultLength, Query query) {
             var startTime = DateTime.Now;
-            var ticks = DateTime.Now.Ticks;
+            var ticks = DateTime.Now.ToUniversalTime().Ticks;
 
             Query publishStartQuery = NumericRangeQuery.NewLongRange("publishStart", null, ticks, true, false);
             Query publishStopQuery = NumericRangeQuery.NewLongRange("publishStop", ticks, null, false, true);

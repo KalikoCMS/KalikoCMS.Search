@@ -168,7 +168,7 @@
             var result = new SearchResult {NumberOfHits = scoreDocs.Length};
 
             // Create highlighter
-            IFormatter formatter = new SimpleHTMLFormatter("<span class=\"search-highlight;\">", "</span>");
+            IFormatter formatter = new SimpleHTMLFormatter("<span class=\"search-highlight\">", "</span>");
             var fragmenter = new SimpleFragmenter(120);
             var scorer = new QueryScorer(query);
             var highlighter = new Highlighter(formatter, scorer) {TextFragmenter = fragmenter};

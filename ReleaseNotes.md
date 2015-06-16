@@ -1,5 +1,6 @@
 ### New in 3.0.3.4
 * Fixed bug that disabled highlighting in search results
+* Updated reference to KalikoCMS.Core 1.0.0 to index when page published event is triggered
 
 ### New in 3.0.3.3
 * Fixed publishing date to use universal time zone instead of local to match the CMS internal format

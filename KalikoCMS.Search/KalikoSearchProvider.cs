@@ -80,9 +80,9 @@ namespace KalikoCMS.Search {
             return result;
         }
 
-        public override SearchResult FindSimular(Guid pageId, int languageId, int resultOffset = 0, int resultSize = 10, bool matchCategory = true) {
+        public override SearchResult FindSimular(Guid pageId, int languageId, int resultOffset = 0, int resultSize = 10, bool matchCategory = true, string[] metaData = null) {
             var key = GetKey(pageId, languageId);
-            var searchResult = _collection.FindSimular(key, resultOffset, resultSize, matchCategory);
+            var searchResult = _collection.FindSimular(key, resultOffset, resultSize, matchCategory, metaData);
             var result = ConvertResult(searchResult);
 
             return result;

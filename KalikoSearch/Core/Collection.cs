@@ -44,8 +44,8 @@
             return _searchFinder.Search(queryString, searchFields, metaData, resultOffset, resultLength);
         }
 
-        public SearchResult FindSimular(string key, int resultOffset = 0, int resultLength = 10, bool matchCategory = true) {
-            return _searchFinder.FindSimular(key, resultOffset, resultLength, matchCategory);
+        public SearchResult FindSimular(string key, int resultOffset = 0, int resultLength = 10, bool matchCategory = true, string[] metaData = null) {
+            return _searchFinder.FindSimular(key, resultOffset, resultLength, matchCategory, metaData);
         }
 
         private FSDirectory GetDataDirectory() {

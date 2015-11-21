@@ -58,7 +58,7 @@
             CreateIndexer();
         }
 
-        public SearchResult FindSimular(string key, int resultOffset, int resultLength, bool matchCategory) {
+        public SearchResult FindSimular(string key, int resultOffset, int resultLength, bool matchCategory, string[] metaData) {
             var pageQuery = new TermQuery(new Term("key", key));
             var topDocs = _searcher.Search(pageQuery, 1);
             if (topDocs.TotalHits == 0) {
@@ -122,9 +122,11 @@
                         Excerpt = document.Get("summary")
                     };
 
-                    //foreach (string key in metaData) {
-                    //    hit.MetaData.Add(key, document.Get(key));
-                    //}
+                    if (metaData != null) {
+                        foreach (var field in metaData) {
+                            hit.MetaData.Add(field, document.Get(field));
+                        }
+                    }
 
                     result.Hits.Add(hit);
                 }

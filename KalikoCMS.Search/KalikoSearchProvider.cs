@@ -100,7 +100,9 @@ namespace KalikoCMS.Search {
                     Path = hit.Path, 
                     Title = hit.Title, 
                     MetaData = hit.MetaData, 
-                    PageId = hit.PageId
+                    PageId = hit.PageId,
+                    Tags = hit.Tags,
+                    Summary = hit.Summary
                 });
             }
 

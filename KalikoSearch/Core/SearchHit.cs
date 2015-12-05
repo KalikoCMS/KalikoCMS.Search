@@ -11,6 +11,8 @@ namespace KalikoSearch.Core {
         public string Title { get; internal set; }
         public string Path { get; internal set; }
         public string Excerpt { get; internal set; }
+        public string Summary { get; set; }
+        public string Tags { get; set; }
         public Dictionary<string, string> MetaData { get; internal set; }
     }
 }

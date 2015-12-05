@@ -119,7 +119,9 @@
                         PageId = pageId,
                         Path = document.Get("path"),
                         Title = document.Get("title"),
-                        Excerpt = document.Get("summary")
+                        Excerpt = document.Get("summary"),
+                        Summary = document.Get("summary"),
+                        Tags = document.Get("tags")
                     };
 
                     if (metaData != null) {
@@ -199,7 +201,9 @@
                         PageId = pageId,
                         Path = document.Get("path"),
                         Title = document.Get("title"), 
-                        Excerpt = excerpt
+                        Excerpt = excerpt,
+                        Summary = document.Get("summary"),
+                        Tags = document.Get("tags")
                     };
 
 

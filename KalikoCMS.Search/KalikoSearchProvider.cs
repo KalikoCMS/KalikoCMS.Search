@@ -25,7 +25,7 @@ namespace KalikoCMS.Search {
 
     public class KalikoSearchProvider : SearchProviderBase {
         private readonly Collection _collection;
-        private static readonly string[] SearchFields = { "title", "summary", "content", "category", "tags" };
+        private static readonly string[] SearchFields = { "title", "summary", "content", "category", "tags", "tokenizedCategory" };
 
         public KalikoSearchProvider() {
             _collection = new Collection("KalikoCMS");

@@ -69,7 +69,7 @@
             Field.Index fieldIndex = GetFromIndexEnum(index);
 
             var field = new Field(name, value, fieldStore, fieldIndex);
-
+            
             if (boost != null) {
                 field.Boost = (float)boost;
             }

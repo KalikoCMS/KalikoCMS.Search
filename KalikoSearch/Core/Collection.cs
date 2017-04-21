@@ -3,7 +3,6 @@
     using System.IO;
     using System.Web;
     using Configuration;
-    using Lucene.Net.Analysis;
     using Lucene.Net.Store;
 
     public class Collection : IDisposable {
@@ -17,7 +16,7 @@
             var directory = GetDataDirectory();
             var analyzer = SearchAnalyzer.GetConfiguredAnalyzer();
             _searchIndexer = new SearchIndexer(directory, analyzer);
-            _searchFinder = new SearchFinder(_searchIndexer, analyzer);
+            _searchFinder = new SearchFinder(directory, analyzer);
         }
 
         public void AddDocument(IndexDocument document) {

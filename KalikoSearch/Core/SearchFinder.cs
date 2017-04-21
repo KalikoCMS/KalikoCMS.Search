@@ -9,18 +9,21 @@
     using Lucene.Net.Search;
     using Lucene.Net.Search.Highlight;
     using Lucene.Net.Search.Similar;
+    using Lucene.Net.Store;
     using Version = Lucene.Net.Util.Version;
 
     public class SearchFinder : IDisposable {
         public const int MaxHits = 1000;
+        private readonly FSDirectory _directory;
         private readonly Analyzer _analyzer;
         private Searcher _searcher;
         private IndexReader _reader;
         private bool _open;
 
-        public SearchFinder(SearchIndexer indexer, Analyzer analyzer) {
+        public SearchFinder(FSDirectory directory, Analyzer analyzer) {
+            _directory = directory;
             _analyzer = analyzer;
-            _reader = indexer.IndexWriter.GetReader();
+            _reader = IndexReader.Open(directory, true);
             CreateIndexer();
             _open = true;
         }
@@ -50,11 +53,9 @@
         }
 
         public void Refresh() {
-            IndexReader newIndexReader = _reader.Reopen();
-            CloseReader();
             CloseSearcher();
 
-            _reader = newIndexReader;
+            _reader = IndexReader.Open(_directory, true);
             CreateIndexer();
         }
 

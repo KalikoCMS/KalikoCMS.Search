@@ -55,8 +55,8 @@
       <HintPath>..\packages\Kaliko.Logger.1.1.1\lib\Kaliko.Logger.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="KalikoCMS.Engine, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KalikoCMS.Engine.1.1.0-beta2\lib\KalikoCMS.Engine.dll</HintPath>
+    <Reference Include="KalikoCMS.Engine, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KalikoCMS.Engine.1.2.1-beta2\lib\KalikoCMS.Engine.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -64,20 +64,20 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.XML" />
-    <Reference Include="Telerik.OpenAccess, Version=2015.2.624.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.DataAccess.Core.2015.2.624.1\lib\net40\Telerik.OpenAccess.dll</HintPath>
+    <Reference Include="Telerik.OpenAccess, Version=2016.2.822.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.DataAccess.Core.2016.2.822.1\lib\net40\Telerik.OpenAccess.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.OpenAccess.35.Extensions, Version=2015.2.624.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.DataAccess.Core.2015.2.624.1\lib\net40\Telerik.OpenAccess.35.Extensions.dll</HintPath>
+    <Reference Include="Telerik.OpenAccess.35.Extensions, Version=2016.2.822.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.DataAccess.Core.2016.2.822.1\lib\net40\Telerik.OpenAccess.35.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.OpenAccess.40.Extensions, Version=2015.2.624.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.DataAccess.Core.2015.2.624.1\lib\net40\Telerik.OpenAccess.40.Extensions.dll</HintPath>
+    <Reference Include="Telerik.OpenAccess.40.Extensions, Version=2016.2.822.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.DataAccess.Core.2016.2.822.1\lib\net40\Telerik.OpenAccess.40.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.OpenAccess.Runtime, Version=2015.2.624.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.DataAccess.Core.2015.2.624.1\lib\net40\Telerik.OpenAccess.Runtime.dll</HintPath>
+    <Reference Include="Telerik.OpenAccess.Runtime, Version=2016.2.822.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.DataAccess.Core.2016.2.822.1\lib\net40\Telerik.OpenAccess.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

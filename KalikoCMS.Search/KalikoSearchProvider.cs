@@ -74,7 +74,15 @@ namespace KalikoCMS.Search {
         }
 
         public override SearchResult Search(SearchQuery query) {
-            var searchResult = _collection.Search(query.SearchString, SearchFields, query.MetaData, query.ReturnFromPosition, query.NumberOfHitsToReturn);
+            string[] searchFields;
+            if (query.InFields == null || query.InFields.Length == 0) {
+                searchFields = SearchFields;
+            }
+            else {
+                searchFields = query.InFields;
+            }
+
+            var searchResult = _collection.Search(query.SearchString, searchFields, query.MetaData, query.ReturnFromPosition, query.NumberOfHitsToReturn);
             var result = ConvertResult(searchResult);
 
             return result;

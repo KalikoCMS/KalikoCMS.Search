@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Telerik.OpenAccess.40.Extensions</name>
+    </assembly>
+    <members>
+        <member name="T:Telerik.OpenAccess.OpenAccessContextExtensions">
+            <summary>
+            Contains .Net 4.0 specific extensions methods for OpenAccessContext type
+            </summary>
+        </member>
+        <member name="M:Telerik.OpenAccess.OpenAccessContextExtensions.CreateDynamicInstance(Telerik.OpenAccess.OpenAccessContext,Telerik.OpenAccess.Metadata.MetaPersistentType)">
+            <summary>
+            Creates an instance of the specified persistent type. Returns the instance as Dynamic
+            </summary>
+            <remarks>The new entity instance is not added to the context. 
+            Before using SetFieldValue or FieldValue methods make sure the object is added to an OpenAccessContext
+            </remarks>
+            <param name="context">Context instance that contains the metadata for the specified persistent type</param>
+            <param name="persistentType">Type of the entity that is to be created</param>
+            <returns>New entity instance of the specified type exposed as dynamic</returns>
+        </member>
+        <member name="M:Telerik.OpenAccess.OpenAccessContextExtensions.CreateDynamicInstance(Telerik.OpenAccess.OpenAccessContext,System.String)">
+            <summary>
+            Creates an instance of the specified persistent type. Returns the instance as Dynamic
+            </summary>
+            <remarks>The new entity instance is not added to the context. 
+            Before using SetFieldValue or FieldValue methods make sure the object is added to an OpenAccessContext
+            </remarks>
+            <param name="context">Context instance that contains the metadata for the specified persistent type</param>
+            <param name="persistentTypeFullName">Full type name of the entity that is to be created</param>
+            <returns>New entity instance of the specified type exposed as dynamic</returns>
+        </member>
+    </members>
+</doc>

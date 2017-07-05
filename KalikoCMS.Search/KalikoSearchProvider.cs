@@ -25,7 +25,7 @@ namespace KalikoCMS.Search {
 
     public class KalikoSearchProvider : SearchProviderBase {
         private readonly Collection _collection;
-        private static readonly string[] SearchFields = new[] { "title", "summary", "content", "category", "tags" };
+        private static readonly string[] SearchFields = { "title", "summary", "content", "category", "tags", "tokenizedCategory" };
 
         public KalikoSearchProvider() {
             _collection = new Collection("KalikoCMS");
@@ -45,13 +45,13 @@ namespace KalikoCMS.Search {
         }
 
         public override void RemoveFromIndex(Guid pageId, int languageId) {
-            string key = GetKey(pageId, languageId);
+            var key = GetKey(pageId, languageId);
             _collection.RemoveDocument(key);
         }
 
         public override void RemoveFromIndex(Collection<Guid> pageIds, int languageId) {
             foreach (var pageId in pageIds) {
-                string key = GetKey(pageId, languageId);
+                var key = GetKey(pageId, languageId);
                 _collection.RemoveDocument(key);
             }
         }
@@ -61,28 +61,36 @@ namespace KalikoCMS.Search {
         }
 
         private string GetKey(Guid pageId, int languageId) {
-            string key = string.Format("{0}:{1}", pageId, languageId);
+            var key = string.Format("{0}:{1}", pageId, languageId);
             return key;
         }
 
         public override void Init() {
-            PageFactory.PageSaved += OnPageSaved;
+            PageFactory.PagePublished += OnPagePublished;
         }
 
-        void OnPageSaved(object sender, PageEventArgs e) {
+        void OnPagePublished(object sender, PageEventArgs e) {
             IndexPage(e.Page);
         }
 
         public override SearchResult Search(SearchQuery query) {
-            var searchResult = _collection.Search(query.SearchString, SearchFields, query.MetaData, query.ReturnFromPosition, query.NumberOfHitsToReturn);
+            string[] searchFields;
+            if (query.InFields == null || query.InFields.Length == 0) {
+                searchFields = SearchFields;
+            }
+            else {
+                searchFields = query.InFields;
+            }
+
+            var searchResult = _collection.Search(query.SearchString, searchFields, query.MetaData, query.ReturnFromPosition, query.NumberOfHitsToReturn);
             var result = ConvertResult(searchResult);
 
             return result;
         }
 
-        public override SearchResult FindSimular(Guid pageId, int languageId, int resultOffset = 0, int resultSize = 10, bool matchCategory = true) {
+        public override SearchResult FindSimular(Guid pageId, int languageId, int resultOffset = 0, int resultSize = 10, bool matchCategory = true, string[] metaData = null) {
             var key = GetKey(pageId, languageId);
-            var searchResult = _collection.FindSimular(key, resultOffset, resultSize, matchCategory);
+            var searchResult = _collection.FindSimular(key, resultOffset, resultSize, matchCategory, metaData);
             var result = ConvertResult(searchResult);
 
             return result;
@@ -100,7 +108,9 @@ namespace KalikoCMS.Search {
                     Path = hit.Path, 
                     Title = hit.Title, 
                     MetaData = hit.MetaData, 
-                    PageId = hit.PageId
+                    PageId = hit.PageId,
+                    Tags = hit.Tags,
+                    Summary = hit.Summary
                 });
             }
 

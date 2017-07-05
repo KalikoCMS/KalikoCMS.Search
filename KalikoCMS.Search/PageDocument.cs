@@ -137,10 +137,12 @@ namespace KalikoCMS.Search {
 
         protected string Category {
             get {
-                return GetFieldValue("category");
+                return GetFieldValue("tokenizedCategory");
             }
             set {
-                AddField("category", value, FieldStore.Store, FieldIndex.Analyzed);
+                var lowerCasedValue = value != null ? value.ToLowerInvariant() : string.Empty;
+                AddField("category", lowerCasedValue, FieldStore.Store, FieldIndex.IndexOnly);
+                AddField("tokenizedCategory", value, FieldStore.Store, FieldIndex.Analyzed);
             }
         }
     }
